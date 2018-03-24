@@ -35,6 +35,7 @@ if (isset($_POST['validation'])) {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
     <style>
         form {
             background: linear-gradient(to left, purple, whitesmoke);
@@ -44,19 +45,19 @@ if (isset($_POST['validation'])) {
 </head>
 <body>
 <div class="container row">
-    <div class="col-4">
+    <div class="col-sm-4">
     </div>
 
-    <div class="col-6 mt-5">
+    <div class="col-sm-6 mt-5">
         <form action="#" method="post">
             <p class="display-4 text-center ">Form Validation</p>
 
-            <label class="form-group"> First Name: </label>
+            <label class="form-group" for="firstName"> First Name: </label>
             <span id="firstname"><?php echo $error['firstName']; ?></span>
             <input class="form-control " type="text" name="firstName" id="firstName"
                    value="<?php echo $firstName ?>">
 
-            <label class="form-group">Last Name: </label>
+            <label class="form-group" for="lastName">Last Name: </label>
             <span id="lastname"><?php echo $error['lastName']; ?></span>
             <input class="form-control" type="text" name="lastName" id="lastName"
                    value="<?php echo $lastName ?>"><br>
@@ -67,13 +68,17 @@ if (isset($_POST['validation'])) {
             </div>
             <br>
         </form>
+
+
+    </div>
+    <div class="col-sm-3">
         <?php
         print_r($error);
         ?>
-
     </div>
-    <div class="col-3"></div>
+
 </div>
+
 <script>
 
     var firstNames = document.getElementById("firstName");
@@ -103,10 +108,29 @@ if (isset($_POST['validation'])) {
             document.getElementById("lastname").innerHTML = "";
 
             return true;
-
         }
-
     }
+
+    $(document).ready(function () {
+        $("#firstName").focusout(function () {
+            var f = $("#firstName").val();
+            if (!f.match(/[a-z]/i)) {
+                $(":input").nextAll().hide();
+            } else {
+                $(":input").nextAll().show();
+            }
+        });
+
+        $("#lastNameName").focusout(function () {
+            var f = $("#lastName").val();
+            if (!f.match(/[a-z]/i)) {
+                $(":input").nextAll().hide();
+            } else {
+                $(":input").nextAll().show();
+            }
+        });
+
+    });
 
 </script>
 </body>
