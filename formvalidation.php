@@ -1,20 +1,22 @@
 <?php
 
 $valid = false;
-
+$error = [];
 if (isset($_POST['validation'])) {
+
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
-    if (!empty($firstName) && ctype_alpha($firstName)) {
+
+    if (ctype_alpha($firstName)) {
         $valid = true;
     } else {
-        $error = "Please Use Alphabet";
+        $error['firstName'] = "First Name must be Alphabet";
         $valid = false;
     }
-    if (!empty($lastName) && ctype_alpha($lastName)) {
+    if (ctype_alpha($lastName)) {
         $valid = true;
     } else {
-        $error = "Please Use Alphabet";
+        $error['lastName'] = "Last Name must be Alphabet";
         $valid = false;
     }
 }
@@ -48,19 +50,64 @@ if (isset($_POST['validation'])) {
     <div class="col-6 mt-5">
         <form action="#" method="post">
             <p class="display-4 text-center ">Form Validation</p>
-            <label class="form-group"> First Name: </label> <span><?php echo $error; ?></span>
-            <input class="form-control " type="text" name="firstName" id="fistName" value="<?php echo $firstName ?>">
-            <label class="form-group">Last Name: </label> <span><?php echo $error; ?></span>
-            <input class="form-control" type="text" name="lastName" id="lastName" value="<?php echo $lastName ?>"><br>
-            <label>PhoneNumber: </label>
+
+            <label class="form-group"> First Name: </label>
+            <span id="firstname"><?php echo $error['firstName']; ?></span>
+            <input class="form-control " type="text" name="firstName" id="firstName"
+                   value="<?php echo $firstName ?>">
+
+            <label class="form-group">Last Name: </label>
+            <span id="lastname"><?php echo $error['lastName']; ?></span>
+            <input class="form-control" type="text" name="lastName" id="lastName"
+                   value="<?php echo $lastName ?>"><br>
+
+            <!--            <label>PhoneNumber: </label>-->
             <div class="text-center">
                 <button class="btn btn-basic" type="submit" name="validation">Submit</button>
             </div>
             <br>
         </form>
+        <?php
+        print_r($error);
+        ?>
 
     </div>
     <div class="col-3"></div>
 </div>
+<script>
+
+    var firstNames = document.getElementById("firstName");
+    var lastNames = document.getElementById("lastName");
+
+    firstNames.onkeyup = validate_firstname;
+    lastNames.onkeyup = validate_lastname;
+
+    function validate_firstname() {
+        var text = firstNames.value;
+        if (!text.match(/[a-z]/i)) {
+            document.getElementById("firstname").innerHTML = "Please use Alphabet ";
+            return false;
+        } else {
+            document.getElementById("firstname").innerHTML = "";
+            return true;
+        }
+    }
+
+    function validate_lastname() {
+        var text = lastNames.value;
+        if (!text.match(/[a-z]/i)) {
+            document.getElementById("lastname").innerHTML = "Please Use Alphabet ";
+
+            return false;
+        } else {
+            document.getElementById("lastname").innerHTML = "";
+
+            return true;
+
+        }
+
+    }
+
+</script>
 </body>
 </html>
